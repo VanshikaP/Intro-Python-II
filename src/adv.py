@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 # Declare all the rooms
 
 room = {
@@ -33,6 +34,22 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# list of items
+itemList = {
+    'Brick': Item('Brick', 'Build settlement and roads'),
+    'Wood': Item('Wood', 'Build settlement and roads'),
+    'Sheep': Item('Sheep', 'Build settlement and get development cards'),
+    'Grain': Item('Grain', 'Build settlement, cities and get development cards'),
+    'Stone': Item('Stone', 'Build cities and get development cards'),
+    'DCard': Item('Development Cards', 'Get special powers')
+}
+
+# items assignment to rooms
+room['outside'].items = [itemList['Brick'], itemList['Wood']]
+room['foyer'].items = [itemList['Brick'], itemList['Grain'], itemList['Sheep']]
+room['overlook'].items = [itemList['Wood'], itemList['Sheep'], itemList['Grain']]
+room['narrow'].items = [itemList['Stone'], itemList['Grain']]
+room['treasure'].items = [itemList['Brick'], itemList['Grain'], itemList['Wood']]
 #
 # Main
 #
@@ -49,39 +66,41 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
-player1 = Player(room['outside'])
+
+# Get Player Name
+playerName = input('Hello, What is your name?\n')
+
+# Initialize player with given name
+player = Player(playerName, room['outside'])
 
 while True:
-    currRoom = player1.room
-    print(currRoom)
-    move = input("Enter direction [e/w/n/s] or q --> ")
+    # print player item inventory
+    print('\nPlayer Items:')
+    for item in player.items:
+        print('\t', item)
 
-    if move == 'q':
+    # print current room and items available in the room
+    print('Room - ', player.current_room)
+    print('Items in Room:')
+    for item in player.current_room.items:
+        print('\t', item)
+
+
+    # Get the User Input
+    userInput = input('What would you like to do? \n\tEnter [n], [s], [e] or [w] to move across rooms \n\tEnter \"take [item_name]\" or \"drop [item_name]\" to add or remove items \n\tEnter [q] to quit the game\n')
+
+    userInputWords = userInput.split(' ')
+
+    if userInput == 'q':
         print('You chose to quit!')
         break
-    elif move == 'e':
-        if currRoom.e_to != None:
-            print('Moving to East')
-            player1.room = currRoom.e_to
+    elif len(userInputWords) == 1:
+        player.move(userInput)
+    elif len(userInputWords) == 2:
+        verb = userInputWords[0]
+        itemName = userInputWords[1]
+        if itemName in itemList:
+            player.action(verb, itemList[itemName])
         else:
-            print('Nowhere to go :(')
-    elif move == 'w':
-        if currRoom.w_to != None:
-            print('Moving to West')
-            player1.room = currRoom.w_to
-        else:
-            print('Nowhere to go :(')
-    elif move == 'n':
-        if currRoom.n_to != None:
-            print('Moving to North')
-            player1.room = currRoom.n_to
-        else:
-            print('Nowhere to go :(')
-    elif move == 's':
-        if currRoom.s_to != None:
-            print('Moving to South')
-            player1.room = currRoom.s_to
-        else:
-            print('Nowhere to go :(')
-    else:
-        print('Movement not allowed')
+            print('Invalid item choice')
+

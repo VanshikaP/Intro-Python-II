@@ -6,11 +6,18 @@ class Room:
     w_to = None
     n_to = None
     s_to = None
-    def __init__(self, name, desc):
+    items = []
+    def __init__(self, name, desc, room_e = None, ):
         self.name = name
         self.description = desc
     
     def __str__(self):
-        return '{}\n{}'.format(self.name, self.description)
+        return '{}: {}'.format(self.name, self.description)
+
+    def addItem(self, item):
+        self.items.append(item)
+    
+    def removeItem(self, item):
+        self.items.remove(item)
 
     
