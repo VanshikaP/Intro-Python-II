@@ -30,10 +30,10 @@ class Player:
     
     def action(self, verb, item):
         if (verb == 'get' or verb == 'take') and (item in self.current_room.items):
-            print('Picking up the ', item.name)
+            item.on_take()
             self.addItem(item)
             self.current_room.removeItem(item)
         elif (verb == 'drop' or verb == 'leave') and (item in self.items):
-            print('Dropping the ', item.name)
+            item.on_drop()
             self.removeItem(item)
             self.current_room.addItem(item)
