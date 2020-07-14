@@ -18,7 +18,7 @@ class Player:
             self.items.remove(item)
             print('{} removed from the inventory'.format(item.name))
         else:
-            print('Item not present')
+            print('Item not available to', self.name)
     
     def move(self, move):
         moveVar = move + '_to'
@@ -37,3 +37,6 @@ class Player:
             item.on_drop()
             self.removeItem(item)
             self.current_room.addItem(item)
+        else:
+            print('Invalid item/action')
+            return None

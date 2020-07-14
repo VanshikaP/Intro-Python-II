@@ -74,20 +74,23 @@ playerName = input('Hello, What is your name?\n')
 player = Player(playerName, room['outside'])
 
 while True:
+    print('--------------------------------------------------')
     # print player item inventory
     print('\nPlayer Items:')
     for item in player.items:
         print('\t', item)
-
+    print('\n')
+    
     # print current room and items available in the room
     print('Room - ', player.current_room)
-    print('Items in Room:')
+    print('\nItems in Room:')
     for item in player.current_room.items:
         print('\t', item)
 
-
+    print('\n')
+    print('--------------------------------------------------')
     # Get the User Input
-    userInput = input('What would you like to do? \n\tEnter [n], [s], [e] or [w] to move across rooms \n\tEnter \"take [item_name]\" or \"drop [item_name]\" to add or remove items \n\tEnter [q] to quit the game\n')
+    userInput = input('\nWhat would you like to do? \n\tEnter [n], [s], [e] or [w] to move across rooms \n\tEnter \"take [item_name]\" or \"drop [item_name]\" to add or remove items \n\tEnter [q] to quit the game\n')
 
     userInputWords = userInput.split(' ')
 
