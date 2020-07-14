@@ -23,7 +23,7 @@ class Player:
     def move(self, move):
         moveVar = move + '_to'
         if getattr(self.current_room, moveVar) != None:
-            print('Moving to ', move)
+            print('Moving to', move.upper())
             self.current_room = getattr(self.current_room, moveVar)
         else:
             print('Movement not allowed!')
